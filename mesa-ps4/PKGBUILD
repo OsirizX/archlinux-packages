@@ -10,9 +10,9 @@
 # Contributor: Antti "Tera" Oja <antti.bofh@gmail.com>
 # Contributor: Diego Jose <diegoxter1006@gmail.com>
 
-pkgname=mesa-git
+pkgname=mesa-ps4
 pkgdesc="an open-source implementation of the OpenGL specification, git version"
-pkgver=21.1.0_devel.137165.c3bf3e8d43a
+pkgver=21.3.2
 pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python-mako' 'xorgproto'
@@ -25,13 +25,13 @@ provides=('mesa' 'opencl-mesa' 'vulkan-radeon' 'vulkan-mesa-layer' 'libva-mesa-d
 conflicts=('mesa' 'opencl-mesa' 'vulkan-radeon' 'vulkan-mesa-layer' 'libva-mesa-driver' 'mesa-vdpau' 'vulkan-swrast')
 url="https://www.mesa3d.org"
 license=('custom')
-source=('mesa::git+https://gitlab.freedesktop.org/mesa/mesa.git'
+source=("https://mesa.freedesktop.org/archive/mesa-${pkgver}.tar.xz"
         'LICENSE'
         '0001-clover-llvm13-use-FixedVectorType.patch')
 md5sums=('SKIP'
          '5c65a0fe315dd347e09b1f2826a1df5a'
          '5f0620ce35da2d1f80dc1b3c03eafc32')
-sha512sums=('SKIP'
+sha512sums=('35c510cbab70be43bc207720a12fe85b0c010fafa147238f2c22dd873967278f187ee7675a662882ead3598305f1f37804567deb93022a692ca259f563abfdac'
             '25da77914dded10c1f432ebcbf29941124138824ceecaf1367b3deedafaecabc082d463abcfa3d15abff59f177491472b505bcb5ba0c4a51bb6b93b4721a23c2'
             'c3a567df69a263c6b87d9c7887464ed03b5a0bf008caf180c45cf50dca3f4710e0eda3e453a7a69b89720e333c33b9aa7da1b7f9c79d72bb76d847b567558d19')
 
@@ -50,7 +50,7 @@ sha512sums=('SKIP'
 # 
 
 if [[ ! $MESA_WHICH_LLVM ]] ; then
-    MESA_WHICH_LLVM=3
+    MESA_WHICH_LLVM=4
 fi
 
 case $MESA_WHICH_LLVM in
@@ -75,8 +75,8 @@ case $MESA_WHICH_LLVM in
         ;;
     4)
         # extra/llvm
-        makedepends+=(llvm=11.1.0 clang=11.1.0)
-        depends+=(llvm-libs=11.1.0)
+        makedepends+=(llvm clang)
+        depends+=(llvm-libs)
         optdepends+=('clang: opencl' 'compiler-rt: opencl')
         ;;
     *)
@@ -86,23 +86,11 @@ esac
         
         
         
-pkgver() {
-    cd mesa
-    read -r _ver <VERSION
-    echo ${_ver/-/_}.$(git rev-list --count HEAD).$(git rev-parse --short HEAD)
-}
-
-prepare() {
-	patch -p0 < ../mesa.patch
-	
-    # although removing _build folder in build() function feels more natural,
-    # that interferes with the spirit of makepkg --noextract
-    if [  -d _build ]; then
-        rm -rf _build
-    fi
-    cd mesa
-    patch --forward --strip=1 --input="${srcdir}/0001-clover-llvm13-use-FixedVectorType.patch"
-}
+# pkgver() {
+#     cd mesa
+#     read -r _ver <VERSION
+#     echo ${_ver/-/_}.$(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+# }
 
 build () {
     meson setup mesa _build \
