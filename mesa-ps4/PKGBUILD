@@ -87,7 +87,7 @@ esac
 # }
 
 build () {
-    meson setup mesa _build \
+    meson setup mesa-$pkgver _build \
        -D b_ndebug=true \
        -D b_lto=true \
        -D buildtype=plain \
