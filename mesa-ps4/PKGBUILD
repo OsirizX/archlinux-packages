@@ -95,7 +95,7 @@ build () {
        -D prefix=/usr \
        -D sysconfdir=/etc \
        -D platforms=x11,wayland \
-       -D gallium-drivers=radeonsi,svga,swrast,virgl,zink \
+       -D gallium-drivers=radeonsi,swrast \
        -D vulkan-drivers=amd,swrast \
        -D dri3=enabled \
        -D egl=enabled \
@@ -104,7 +104,7 @@ build () {
        -D gallium-omx=bellagio \
        -D gallium-va=enabled \
        -D gallium-vdpau=enabled \
-       -D gallium-xa=enabled \
+       -D gallium-xa=disabled \
        -D gallium-xvmc=disabled \
        -D gbm=enabled \
        -D gles1=disabled \
