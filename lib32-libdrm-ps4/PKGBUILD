@@ -3,43 +3,37 @@
 # Contributor: Laurent Carlier <lordheavym@gmail.com>
 # Contributor : Jan de Groot <jgc@archlinux.org>
 
-pkgname=lib32-libdrm-git
-pkgver=2.4.104.r21.gf5abbc30
+pkgname=lib32-libdrm-ps4
+_pkgbasename=libdrm
+pkgver=2.4.109
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services, git 32-bit version"
 arch=(x86_64)
 license=('custom')
-depends=('libdrm-git' 'lib32-libpciaccess' 'lib32-gcc-libs')
+depends=('libdrm-ps4' 'lib32-libpciaccess' 'lib32-gcc-libs')
 makedepends=('meson' 'git' 'ninja')
 checkdepends=('lib32-cairo')
 url="http://dri.freedesktop.org/"
 provides=('lib32-libdrm')
 conflicts=('lib32-libdrm')
 
-source=('libdrm::git://anongit.freedesktop.org/mesa/drm#branch=master'
+source=(https://dri.freedesktop.org/${_pkgbasename}/${_pkgbasename}-${pkgver}.tar.xz # {,.sig}
+        libdrm.patch
         COPYING)
-sha256sums=('SKIP'
-            '9631d4f694952e3e6ae5a05534c2e93e994e47d3413677a3a00e45c8cef6db93')
-
+sha512sums=('45194bb28207421afcff3e247930d2eeab77a5fea58e6be22f67525f2e0aab2f410a9ae0ab315b55ef56b80c481bba40b1660468b7cda539758b2bbb8e814fd8'
+            SKIP
+            SKIP)
           
-pkgver() {
-    cd libdrm
-    git describe --long --abbrev=8 | sed 's/^libdrm-//;s/\([^-]*-g\)/r\1/;s/-/./g'
-}
-
 prepare() {
-	patch -p0 < ../libdrm.patch
-	
-    if [  -d _build ]; then
-        rm -rf _build
-    fi
+    cd $_pkgbasename-$pkgver
+	patch -Np1 < ../libdrm.patch
 }
 
 build() {
     export CC="gcc -m32"
     export CXX="g++ -m32"
     export PKG_CONFIG=/usr/bin/i686-pc-linux-gnu-pkg-config
-    meson setup libdrm _build \
+    meson setup $_pkgbasename-$pkgver _build \
         --prefix /usr \
         --libdir lib32 \
         --buildtype plain \
