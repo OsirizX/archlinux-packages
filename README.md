@@ -11,19 +11,19 @@ Currently only has video drivers for PS4 3D acceleration... which are untested -
 Grab your packages... if you trust me!
 
 1) Add the repository to `/etc/pacman.conf`
-```
+```ini
 [sevencoil]
 SigLevel = Optional DatabaseOptional
 Server = https://archlinux.leondrolio.com/packages/$repo/os/$arch
 ```
 
 2) Update Arch Linux
-```
+```sh
 sudo pacman -Syu
 ```
 
 3) Install the drivers
-```
+```sh
 sudo pacman -S mesa-git lib32-libdrm-git lib32-mesa-git libdrm-git xf86-video-amdgpu-git
 ```
 
