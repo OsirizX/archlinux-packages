@@ -24,8 +24,10 @@ sudo pacman -Syu
 
 3) Install the drivers
 ```sh
-sudo pacman -S mesa-git lib32-libdrm-git lib32-mesa-git libdrm-git xf86-video-amdgpu-git
+sudo pacman -S mesa-git lib32-libdrm-git lib32-mesa-git libdrm-git
 ```
+
+(Editors note: Probably don't install `xf86-video-amdgpu-git`, unless you really need it)
 
 4) Reboot Arch Linux
 
