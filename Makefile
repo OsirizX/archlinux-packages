@@ -1,4 +1,4 @@
-packages = lib32-libdrm-ps4 libdrm-ps4 xf86-video-amdgpu-ps4 lib32-mesa-ps4 mesa-ps4
+packages = lib32-libdrm-ps4 libdrm-ps4 xf86-video-amdgpu-ps4 lib32-mesa-ps4 mesa-ps4 dectalk
 
 .PHONY: all
 

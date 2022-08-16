@@ -1,0 +1,3 @@
+[submodule "archlinux-dectalk-git"]
+	path = dectalk
+	url = https://github.com/dectalk/archlinux-dectalk.git

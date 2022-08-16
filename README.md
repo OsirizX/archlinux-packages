@@ -42,6 +42,7 @@ https://psxita.it/repo
 
 ```
 make
+cd packages/sevencoil/os/x86_64
 repo-add [reponame].db.tar.xz *.pkg.tar.zst
 ```
 
