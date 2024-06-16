@@ -39,7 +39,7 @@ build() {
         --buildtype plain \
         --wrap-mode      nofallback \
         -D udev=false \
-        -D valgrind=false
+        -D valgrind=disabled
     meson configure _build
     ninja -C _build
 }
