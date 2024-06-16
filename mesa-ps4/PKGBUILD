@@ -12,7 +12,7 @@
 
 pkgname=mesa-ps4
 pkgdesc="an open-source implementation of the OpenGL specification, git version"
-pkgver=22.1.7
+pkgver=23.2.1
 pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python-mako' 'xorgproto'
@@ -27,9 +27,11 @@ url="https://www.mesa3d.org"
 license=('custom')
 source=("https://mesa.freedesktop.org/archive/mesa-${pkgver}.tar.xz"
         LICENSE
-        mesa.patch)
-sha512sums=('447e87359445edce231761d94b316b2aa20e9ab58e4b59d75cbb1696dd0900e7164c32bebc3b75700b4070570b456f7a8cf0914181371754a52427d34e4b9120'
+        mesa-ps4-23.2.1.patch
+        mesa-ps4-23.2.1-atomic.patch)
+sha512sums=(SKIP
             'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7'
+            SKIP
             SKIP)
 # NINJAFLAGS is an env var used to pass commandline options to ninja
 # NOTE: It's your responbility to validate the value of $NINJAFLAGS. If unsure, don't set it.
@@ -41,9 +43,9 @@ sha512sums=('447e87359445edce231761d94b316b2aa20e9ab58e4b59d75cbb1696dd0900e7164
 #
 # 1: llvm-minimal-git (aur) preferred value
 # 2: AUR llvm-git
-# 3: llvm-git from LordHeavy unofficial repo 
+# 3: llvm-git from LordHeavy unofficial repo
 # 4  llvm (stable from extra) Default value
-# 
+#
 
 if [[ ! $MESA_WHICH_LLVM ]] ; then
     MESA_WHICH_LLVM=4
@@ -77,7 +79,7 @@ case $MESA_WHICH_LLVM in
         ;;
     *)
 esac
-        
+
 # pkgver() {
 #     cd mesa
 #     read -r _ver <VERSION
@@ -88,7 +90,8 @@ prepare() {
   cd mesa-$pkgver
 
   # ps4
-  patch -Np1 -i ../mesa.patch
+  patch -Np1 -i ../mesa-ps4-23.2.1.patch
+  patch -Np1 -i ../mesa-ps4-23.2.1-atomic.patch
 }
 
 build () {
@@ -126,10 +129,11 @@ build () {
        -D vulkan-layers=device-select,overlay \
        -D tools=[] \
        -D zstd=enabled \
-       -D microsoft-clc=disabled
-       
+       -D microsoft-clc=disabled \
+       -D video-codecs="h264dec,h264enc,h265dec,h265enc,vc1dec"
+
     meson configure _build
-    
+
     ninja $NINJAFLAGS -C _build
 }
 
@@ -143,6 +147,6 @@ package() {
 
     # indirect rendering
     ln -s /usr/lib/libGLX_mesa.so.0 "${pkgdir}/usr/lib/libGLX_indirect.so.0"
-  
+
     install -m644 -Dt "${pkgdir}/usr/share/licenses/${pkgname}" "${srcdir}/LICENSE"
 }
