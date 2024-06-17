@@ -5,7 +5,7 @@
 
 pkgname=lib32-libdrm-ps4
 _pkgbasename=libdrm
-pkgver=2.4.120
+pkgver=2.4.121
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services, git 32-bit version"
 arch=(x86_64)
@@ -26,7 +26,7 @@ sha512sums=(SKIP
 
 prepare() {
     cd $_pkgbasename-$pkgver
-    patch -Np1 < ../libdrm-2.4.120.patch
+    patch -Np1 < ../libdrm-${pkgver}.patch
 }
 
 build() {

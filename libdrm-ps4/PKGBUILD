@@ -2,7 +2,7 @@
 
 pkgname=libdrm-ps4
 _pkgname=libdrm
-pkgver=2.4.120
+pkgver=2.4.121
 pkgrel=1
 pkgdesc="Userspace interface to kernel DRM services (ps4 version)"
 url="https://dri.freedesktop.org/"
@@ -22,7 +22,7 @@ sha512sums=(SKIP
 
 prepare() {
     cd $_pkgname-$pkgver
-    patch -Np1 < ../libdrm-2.4.120.patch
+    patch -Np1 < ../libdrm-${pkgver}.patch
 }
 
 build() {
