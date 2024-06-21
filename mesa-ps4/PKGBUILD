@@ -27,8 +27,8 @@ url="https://www.mesa3d.org"
 license=('custom')
 source=("https://mesa.freedesktop.org/archive/mesa-${pkgver}.tar.xz"
         LICENSE
-        mesa-ps4-23.2.1.patch
-        mesa-ps4-23.2.1-atomic.patch)
+        mesa-ps4-${pkgver}.patch
+        mesa-ps4-${pkgver}-atomic.patch)
 sha512sums=(SKIP
             'f9f0d0ccf166fe6cb684478b6f1e1ab1f2850431c06aa041738563eb1808a004e52cdec823c103c9e180f03ffc083e95974d291353f0220fe52ae6d4897fecc7'
             SKIP
@@ -90,8 +90,8 @@ prepare() {
   cd mesa-$pkgver
 
   # ps4
-  patch -Np1 -i ../mesa-ps4-23.2.1.patch
-  patch -Np1 -i ../mesa-ps4-23.2.1-atomic.patch
+  patch -Np1 -i ../mesa-ps4-${pkgver}.patch
+  patch -Np1 -i ../mesa-ps4-${pkgver}-atomic.patch
 }
 
 build () {
@@ -105,6 +105,7 @@ build () {
     cmake = '/bin/false'
 END
     meson setup mesa-$pkgver _build \
+       --native-file crossfile.ini \
        -D b_ndebug=true \
        -D b_lto=true \
        -D buildtype=plain \
