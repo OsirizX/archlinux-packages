@@ -178,3 +178,15 @@ diff -ruN mesa/src/amd/vulkan/radv_meta_fast_clear.c mesa-patched/src/amd/vulkan
        break;
     case FMASK_DECOMPRESS:
        pipeline = &device->meta_state.fast_clear_flush.fmask_decompress_pipeline;
+diff -ruN mesa/src/gallium/targets/lavapipe/meson.build mesa-patched/src/gallium/targets/lavapipe/meson.build
+--- mesa/src/gallium/targets/lavapipe/meson.build	2022-08-17 09:53:25.000000000 -0700
++++ mesa-patched/src/gallium/targets/lavapipe/meson.build	2024-06-20 22:11:06.046222074 -0700
+@@ -13,7 +13,7 @@
+   link_whole : [ liblavapipe_st ],
+   link_with : [libpipe_loader_static, libgallium, libwsw, libswdri, libws_null, libswkmsdri ],
+   gnu_symbol_visibility : 'hidden',
+-  link_args : [ld_args_bsymbolic, ld_args_gc_sections],
++  link_args : [ld_args_bsymbolic, ld_args_gc_sections, '/usr/lib/libudev.so'],
+   dependencies : driver_swrast,
+   name_prefix : host_machine.system() == 'windows' ? '' : 'lib',
+   install : true,
