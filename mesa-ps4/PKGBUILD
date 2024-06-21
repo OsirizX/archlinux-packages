@@ -102,6 +102,7 @@ build () {
     cmake = '/bin/false'
 END
     meson setup mesa-$pkgver _build \
+       --native-file crossfile.ini \
        -D b_ndebug=true \
        -D b_lto=true \
        -D buildtype=plain \
