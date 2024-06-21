@@ -92,6 +92,15 @@ prepare() {
 }
 
 build () {
+    # pacman -S llvm llvm-libs clang compiler-rt
+    export CC="/usr/bin/clang"
+    export CXX="/usr/bin/clang++"
+    export CPP="/usr/bin/clang-cpp"
+    cat >crossfile.ini <<END
+    [binaries]
+    llvm-config = '/usr/bin/llvm-config'
+    cmake = '/bin/false'
+END
     meson setup mesa-$pkgver _build \
        -D b_ndebug=true \
        -D b_lto=true \
