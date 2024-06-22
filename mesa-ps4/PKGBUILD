@@ -100,7 +100,17 @@ prepare() {
 }
 
 build () {
+    # pacman -S llvm14 llvm14-libs clang14 compiler-rt14
+    export CC="/usr/lib/llvm14/bin/clang"
+    export CXX="/usr/lib/llvm14/bin/clang++"
+    export CPP="/usr/lib/llvm14/bin/clang-cpp"
+    cat >crossfile.ini <<END
+    [binaries]
+    llvm-config = '/usr/bin/llvm-config-14'
+    cmake = '/bin/false'
+END
     meson setup mesa-$pkgver _build \
+       --native-file crossfile.ini \
        -D b_ndebug=true \
        -D b_lto=true \
        -D buildtype=plain \
